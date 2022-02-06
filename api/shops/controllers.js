@@ -1,11 +1,12 @@
 const Shop = require('../../models/Shop');
+const Product = require('../../models/Product');
 
 exports.getShops = async (req, res) => {
   try {
     const shops = await Shop.find().populate('products');
     return res.json(shops);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -14,7 +15,7 @@ exports.shopCreate = async (req, res) => {
     const newShop = await Shop.create(req.body);
     return res.status(201).json(newShop);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -29,6 +30,6 @@ exports.productCreate = async (req, res) => {
     );
     return res.status(201).json(newProduct);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    next(error);
   }
 };

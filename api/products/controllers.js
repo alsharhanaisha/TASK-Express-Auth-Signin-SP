@@ -14,19 +14,6 @@ exports.getProducts = async (req, res) => {
     const products = await Product.find();
     return res.json(products);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-exports.productCreate = async (req, res) => {
-  try {
-    if (req.file) {
-      req.body.image = `/${req.file.path}`;
-      req.body.image = req.body.image.replace('\\', '/');
-    }
-    const newProduct = await Product.create(req.body);
-    return res.status(201).json(newProduct);
-  } catch (error) {
     next(error);
   }
 };
@@ -35,7 +22,7 @@ exports.productDelete = async (req, res, next) => {
   try {
     await req.product.remove();
     res.status(204).end();
-  } catch (err) {
+  } catch (error) {
     next(error);
   }
 };
@@ -47,12 +34,12 @@ exports.productUpdate = async (req, res, next) => {
       req.body.image = req.body.image.replace('\\', '/');
     }
     const product = await Product.findByIdAndUpdate(
-      { _id: req.product.id },
+      { _id: req.product._id },
       req.body,
       { new: true, runValidators: true } // returns the updated product
     );
-    res.status(204).end();
-  } catch (err) {
+    res.json(product);
+  } catch (error) {
     next(error);
   }
 };
