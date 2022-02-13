@@ -12,8 +12,8 @@ exports.getShops = async (req, res, next) => {
 
 exports.shopCreate = async (req, res, next) => {
   try {
+    req.body.owner = req.user._id;
     const newShop = await Shop.create(req.body);
-
     return res.status(201).json(newShop);
   } catch (error) {
     next(error);
