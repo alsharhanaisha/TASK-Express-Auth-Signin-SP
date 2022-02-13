@@ -1,25 +1,26 @@
-const Shop = require('../../models/Shop');
-const Product = require('../../models/Product');
+const Shop = require("../../models/Shop");
+const Product = require("../../models/Product");
 
-exports.getShops = async (req, res) => {
+exports.getShops = async (req, res, next) => {
   try {
-    const shops = await Shop.find().populate('products');
+    const shops = await Shop.find().populate("products");
     return res.json(shops);
   } catch (error) {
     next(error);
   }
 };
 
-exports.shopCreate = async (req, res) => {
+exports.shopCreate = async (req, res, next) => {
   try {
     const newShop = await Shop.create(req.body);
+
     return res.status(201).json(newShop);
   } catch (error) {
     next(error);
   }
 };
 
-exports.productCreate = async (req, res) => {
+exports.productCreate = async (req, res, next) => {
   try {
     const shopId = req.params.shopId;
     req.body = { ...req.body, shop: shopId };

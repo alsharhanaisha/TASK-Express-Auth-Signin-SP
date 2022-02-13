@@ -23,15 +23,14 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.signin = (req, res, next) => {
-  console.log("controller access");
   const user = req.user;
-  console.log(user);
+
   const payload = {
     id: user._id,
     username: user.username,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
-  console.log(payload.exp);
+
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
   res.status(201).json({ token });
 };
